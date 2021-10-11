@@ -11,17 +11,18 @@ namespace MetroTask
         {
             goods = new List<string>()
             {
-                "Beer",
-                "Cigarettes",
-                "Condoms"
+                "beer",
+                "cigarettes",
+                "condoms"
             };
 
             var input = string.Empty;
             var isAppRunning = true;
-            
+
             do
             {
-                input = Console.ReadLine();
+                Display();
+                input = Console.ReadLine().Trim().ToLower();
                 if (input.Equals("exit"))
                 {
                     isAppRunning = false;
@@ -29,6 +30,10 @@ namespace MetroTask
                 else if (input.Equals("display"))
                 {
                     Display();
+                }
+                else if (input.Contains(' ') && input.StartsWith("buy"))
+                {
+                    Buy(input.Substring(input.IndexOf(' ')));
                 }
                 else
                 {
@@ -43,6 +48,18 @@ namespace MetroTask
             System.Console.WriteLine("Welcome to the vending machine! Current products are available: ");
             Program.goods.ForEach(_ => System.Console.WriteLine(_));
             System.Console.WriteLine(@"To turn off vending machine use 'exit' command");
+        }
+
+        static void Buy(string productName)
+        {
+            if (goods.Contains(productName.TrimStart()))
+            {
+                System.Console.WriteLine($"Thanks for purchasing {productName}");
+            }
+            else
+            {
+                System.Console.WriteLine($"{productName} is not availabe");
+            }
         }
     }
 }
