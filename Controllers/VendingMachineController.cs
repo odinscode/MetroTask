@@ -40,7 +40,7 @@ namespace MetroTaskV2.Controllers
             return vmService.Buy(productName);
         }
 
-        [HttpPost("[aciton]")]
+        [HttpPost("[action]")]
         public string GiveChange()
         {
             return vmService.GiveChange();
