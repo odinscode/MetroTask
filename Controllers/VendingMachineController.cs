@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace MetroTaskV2.Controllers
 {
     [Route("api/[controller]")]
@@ -40,6 +38,12 @@ namespace MetroTaskV2.Controllers
         public string Buy(string productName)
         {
             return vmService.Buy(productName);
+        }
+
+        [HttpPost("[aciton]")]
+        public string GiveChange()
+        {
+            return vmService.GiveChange();
         }
     }
 }

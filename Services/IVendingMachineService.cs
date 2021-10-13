@@ -30,5 +30,11 @@ namespace MetroTaskV2.Services
         /// <param name="productName">Product's name to be purchased.</param>
         /// <returns>Information message for selected product purchase process.</returns>
         string Buy(string productName);
+
+        /// <summary>
+        /// User ask a vending machine to give change.
+        /// </summary>
+        /// <returns>Result of change operation.</returns>
+        string GiveChange();
     }
 }
