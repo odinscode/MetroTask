@@ -19,13 +19,7 @@ namespace MetroTaskV2.Services
 
         static VendingMachineService()
         {
-            var rng = new Random();
             var denominations = new double[] { 5000, 2000, 1000, 500, 200, 100, 50, 10, 5, 2, 1, 0.5, 0.1, 0.05, 0.01 };
-
-            //foreach (var nominal in denominations)
-            //{
-            //    moneyForChange.Add(nominal, rng.Next(5, 10));
-            //}
 
             foreach (var nominal in denominations)
             {
@@ -59,6 +53,11 @@ namespace MetroTaskV2.Services
 
         public double DepositMoney(double banknote)
         {
+            // TO DO: add a validation of denomination of incoming banknote
+            // because customer can add only one banknote at time.
+            // Increase a banknote quantity in "moneyForChange" correspondingly of each denomination
+            // depending on incoming banknote denomination and execute "CalculateTotalChangeAmountAvailable()"
+
             depositMoney += banknote;
 
             return depositMoney;
@@ -108,9 +107,7 @@ namespace MetroTaskV2.Services
             {
                 if (changeToGive < 0.01)
                 {
-                    // we can give change
-                    // update correspoding values in our banknote dictionary
-                    // return info
+                    break;
                 }
                 // If denomination of banknote is greater than remainder of change 
                 // which should be paid - skip
@@ -126,25 +123,37 @@ namespace MetroTaskV2.Services
                     continue;
                 }
 
-                var hren = (int)(changeToGive / denomination.Key);
-                if (hren > denomination.Value)
+                var remainderOfBanknoteDenominationDivision = (int)(changeToGive / denomination.Key);
+                if (remainderOfBanknoteDenominationDivision > denomination.Value)
                 {
                     banknoteForChange.Add(denomination.Key, denomination.Value);
                     changeToGive -= denomination.Key * denomination.Value;
                 }
                 else
                 {
-                    banknoteForChange.Add(denomination.Key, (int)hren);
-                    changeToGive -= denomination.Key * hren;
+                    banknoteForChange.Add(denomination.Key, remainderOfBanknoteDenominationDivision);
+                    changeToGive -= denomination.Key * remainderOfBanknoteDenominationDivision;
                 }
             }
 
-            if (changeToGive > 0)
+            // we can give change
+            // update correspoding values in our banknote dictionary
+            // return info
+            if (changeToGive < 0.01)
+            {
+                var result = banknoteForChange
+                    .Select(_ => $"{_.Key} Ruble: {_.Value}")
+                    .Aggregate((a, b) => a + ", " + b);
+
+                return "Your change: " + result;
+            }
+
+            if (changeToGive > 0.01)
             {
                 return $"Sorry we can not provide change for your current deposit {depositMoney}. Please purchase something";
             }
 
-            return string.Empty;
+            return "Something went wrong!";
         }
     }
 }
