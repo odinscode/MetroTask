@@ -1,9 +1,7 @@
 ﻿using MetroTaskV2.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MetroTaskV2.Services
 {
